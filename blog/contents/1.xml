@@ -8,25 +8,17 @@
   xml:base="http://www.kanzaki.com/docs/sw/meta-in-xh.html"
   lang="ja">
 <head>
-  <rdf:RDF>
-    <rdf:Description rdf:about="">
-      <title xmlns="http://purl.org/dc/elements/1.1/">PDFを製本する</title>
-      <dc:date>2016-09-13</dc:date>
-    </rdf:Description>
-  </rdf:RDF>
+  <title>PDFを製本する</title>
 </head>
 <body>
   <h1>PDFを製本する</h1>
+    2016-09-13
   <h2>概要</h2>
-  <p>
     電子書籍のPDFファイルを、A4のプリンターで、A5版の本に製本するやりかたのメモ。
-  </p>
   <h2>きっかけ</h2>
-  <p>
     Linux Device Drivers (<a href="http://www.oreilly.com/openbook/linuxdrive3/book/">オライリー</a> or <a href="https://lwn.net/Kernel/LDD3/">LWN</a>) という本がある。
     リンク先を見てもらえばわかる通り、この本は全文が無償で公開されている。
     ただ、印刷して紙の本にする用のPDFなので、パソコンではちょっと読みづらいし、ちょうどいい大きさのタブレットも持っていないので、どうせなら製本してしまおうと思い立った。
-  </p>
   <h2>方法</h2>
   <h3>使うもの</h3>
   <ul>
@@ -35,7 +27,6 @@
     <li>PDFjam</li>
   </ul>
   <h3>手順</h3>
-  <p>
     まず必要なものをインストールする。
     Gentooなら、
 <pre><code>emerge app-text/pdftk app-text/pdfjam
@@ -99,7 +90,6 @@ lp -o page-ranges=1-16 -o page-set=even -o fitplot -o media=a4 -o PageSize=A4 -o
     束ごとに小口を化粧裁ちして、背を万力で押さえ、木工用ボンドで適当な紙に貼り付ける。
     厚紙で適当に表紙を作れば完成。
     非常に安上がりに本が手に入るので(今回は200円ぐらい)、皆さんもやってみてはいかがでしょうか。
-  </p>
 </body>
 </html>
 
