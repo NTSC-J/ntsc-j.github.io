@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:cc="http://web.resource.org/cc/"
+  xml:base="http://www.kanzaki.com/docs/sw/meta-in-xh.html"
+  lang="ja">
+<head>
+  <title>手のひらの中のGentoo</title>
+</head>
+<body>
+  <h1>手のひらの中のGentoo</h1>
+    2016-12-15 <br />
+    これは、Gentoo Advent Calendar 15日目の記事です。<br />
+  <h2>はじめに</h2>
+    スマートフォンに代表されるモバイルデバイスは、今日では10年前のデスクトップコンピュータを凌ぐほどの性能をもつまでになりました。
+    中でも多くのデバイスに採用されているAndroidは、Linuxカーネルの上に構築されたシステムです。
+    Androidは便利な環境ですが、Gentooユーザーの皆さんには、その機能や設計について不満をもつ方もおられるのではないでしょうか。
+    モバイルデバイスにも、Gentooの提供する選択と自由がほしい。
+    Gentooには、Androidと共存してインストールできる選択肢があります。それが、<a href="https://wiki.gentoo.org/wiki/Prefix/libc">Gentoo RAP</a> (RAP Ain't Prefix)です。
+    今回は、このRAPを試してみたいと思います。
+  <h2>RAPについて</h2>
+  <h3>Prefixについて</h3>
+    RAPについて説明する前に、Gentoo Prefixについて書いておくべきでしょう。
+    Gentoo Prefixは、様々なOSの上でPortage(とか)を使えるようにする仕組みです。
+    普通のGentoo Linuxでは、emerge(とか)したパッケージはrootファイルシステムにインストールされますが、Gentoo Prefixの場合、あるディレクトリ(prefix)を決めて、その中にパッケージをインストールします。
+    こうすることで、下のOSには一切影響を与えず、また、スーパーユーザでなくても管理できるGentoo環境が作れるのです。
+    Gentoo Prefixの力は凄まじく、Mac OS XやSolaris、果てはWindows(Interix)の上でさえGentooが動いてしまいます。
+  <h3>Prefixとの違い</h3>
+    RAPも基本的にはPrefixと似ていますが、ひとつだけ大きく違うところがあります。
+    RAPは、libcを自前で用意するという点です。
+    たとえば、RHEL 5で使われているglibc 2.5では、バージョンがあまりにも古いため、fortifyなどの重要な機能が使えません。
+    同じく、Androidで使われているbionic libcも、BSDのlibcをベースに機能を削ったもので、かなりのライブラリ関数が使えません。
+    こういった環境で通常のGentoo Prefixを使うことはできないため、RAPでは、prefix内のlibcを無理やり使うようになっています。
+    かつでのUbuntu for Androidでも似たようなことを行っていたようです。
+  <h2>RAPのインストール</h2>
+    インストール方法は簡単で、tarballをAndroid上で展開するだけです。
+    実際にAndroid端末にRAPをインストールする前に、いくつか注意事項があります:
+    <ol>
+        <li>インストールする端末は、root化済みであること。</li>
+        <li>(古い端末のみ)端末のLinuxカーネルバージョンを確認すること。(glibc-2.20以上では、linux-2.6.32以上が必要)</li>
+        <li>ストレージのマウントオプションに気をつける。dataパーティションはnodev,noexec,nosuidとかになってると思うので、解除しておく。</li>
+        <li>(ストレージが小さい場合)inodeが枯渇する場合があるので、なんとかして切り抜ける。</li>
+        <li>Androidについてくるtarはよく落ちるので、busyboxのtarを使う。</li>
+    </ol>
+<pre><code>
+# busybox wget http://distfiles.gentoo.org/experimental/prefix/rap/rap-stage3-armv7a_hardfp-latest.tar.xz
+# busybox tar -C /data -xf rap-stage3-armv7a_hardfp-latest.tar.xz
+</code></pre>
+    root権限がどうしても必要なのはここだけです。
+    prefixに入るには、
+<pre><code>
+$ /data/gentoo/startprefix
+</code></pre>
+    あとは適当に、リポジトリを設定したりうどんワールドしたりしましょう。
+  <h2>遊ぶ</h2>
+    現時点ではXが動かないので、コンソールで動くものをインストールしてみましょう。
+    app-misc/sl、games-roguelike/rogue、games-misc/bsd-games あたりがいいんじゃないかな。
+  <h2>おわりに</h2>
+    今回はたいしたことができませんでしたが、Gentoo RAPがもっと成長すれば、モバイルコンピューティングの世界は今よりずっと自由で豊かなものになるでしょう。
+    RAPでWaylandを動かすプロジェクトもあるようです。夢が広がりますね。
+  <h2>リンク</h2>
+    <a href="https://wiki.gentoo.org/wiki/Project:Android">Project:Android - Gentoo Wiki</a><br />
+    <a href="https://wiki.gentoo.org/wiki/Project:Android/tarball">Project:Android/tarball - Gentoo Wiki</a><br />
+    <a href="https://wiki.gentoo.org/wiki/Prefix/libc">Prefix/libc - Gentoo Wiki</a><br />
+    <a href="http://dsas.blog.klab.org/archives/52155870.html">DSAS開発者の部屋:Android NDKで使えないシステムコール・ライブラリ関数一覧</a><br />
+</body>
+</html>
+
