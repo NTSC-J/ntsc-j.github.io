@@ -9,16 +9,22 @@
   lang="ja">
 <head>
   <title>PDFを製本する</title>
+  <link rel="stylesheet" href="../../common.css" type="text/css" />
 </head>
 <body>
   <h1>PDFを製本する</h1>
-    2016-09-13
+  <div>
+  <p class="datetime">2016-09-13</p>
   <h2>概要</h2>
+    <p>
     電子書籍のPDFファイルを、A4のプリンターで、A5版の本に製本するやりかたのメモ。
+    </p>
   <h2>きっかけ</h2>
+    <p>
     Linux Device Drivers (<a href="http://www.oreilly.com/openbook/linuxdrive3/book/">オライリー</a> or <a href="https://lwn.net/Kernel/LDD3/">LWN</a>) という本がある。
     リンク先を見てもらえばわかる通り、この本は全文が無償で公開されている。
     ただ、印刷して紙の本にする用のPDFなので、パソコンではちょっと読みづらいし、ちょうどいい大きさのタブレットも持っていないので、どうせなら製本してしまおうと思い立った。
+    </p>
   <h2>方法</h2>
   <h3>使うもの</h3>
   <ul>
@@ -27,11 +33,14 @@
     <li>PDFjam</li>
   </ul>
   <h3>手順</h3>
+    <p>
     まず必要なものをインストールする。
     Gentooなら、
 <pre><code>emerge app-text/pdftk app-text/pdfjam
 </code></pre>
     pdftkはGCJを利用したソフトウェアなので、環境によっては何かエラーが出るかもしれない。
+    </p>
+    <p>
     次に、今回扱うLDD3のファイルをダウンロードする。
     LWNに置いてあるtarballはなぜか About the Authors/Colophon の部分が欠けているので、オライリーのページからダウンロードする。
 <pre><code>wget https://lwn.net/images/pdf/LDD3/ldd3_pdf.tar.bz2
@@ -39,6 +48,8 @@ tar xvf ldd3_pdf.tar.bz2
 cd ldd3_pdf
 wget http://www.oreilly.com/openbook/linuxdrive3/book/AUTHOR.COLO.pdf
 </code></pre>
+    </p>
+    <p>
     ファイルがバラバラでは面倒なので、1つにまとめてしまう。
 <pre><code>cat &gt; filelist.txt &lt;&lt; EOF
 TITLE.pdf
@@ -69,9 +80,13 @@ ldr3IX.fm.pdf
 EOF
 pdftk `cat filelist.txt` cat output cat.pdf
 </code></pre>
+    </p>
+    <p>
     このPDFファイルにはトンボがついているので、削る。
 <pre><code>pdfcrop --margins -58 cat.pdf crop.pdf
 </code></pre>
+    </p>
+    <p>
     A5版で製本するため、A4の紙8枚=32ページで一束のpdfをつくる。
     ただ、この本は636ページなので、最後だけ28ページで一束にする。
 <pre><code>pdftk A=crop.pdf cat A1-608 output 1-608.pdf
@@ -80,16 +95,24 @@ pdfjam --booklet false --signature 32 --landscape 1-608.pdf -o book1.pdf
 pdfjam --booklet false --signature 28 --landscape 609-636.pdf -o book2.pdf
 pdftk book1.pdf book2.pdf cat output book.pdf
 </code></pre>
+    </p>
+    <p>
     印刷する。長辺綴じの設定で両面印刷すればいいが、うちのプリンターにはそんな機能はないので、奇数ページをまとめて印刷したあと、トレイの用紙を長辺方向を軸に裏返してシートフィーダーにセットし、偶数ページを印刷する。
     うちのプリンターは詰め替えインクを利用していて、途中でインクがなくなるので、少量ずつ印刷する。
 <pre><code>lp -o page-ranges=1-16 -o page-set=odd -o fitplot -o media=a4 -o PageSize=A4 -o OutputType=Grayscale book.pdf
 lp -o page-ranges=1-16 -o page-set=even -o fitplot -o media=a4 -o PageSize=A4 -o OutputType=Grayscale book.pdf
 </code></pre>
+    </p>
+    <p>
     これを最後のページまで続け、8枚ずつまとめて折り、ホチキスで束ねる。
     ダイソーとかで売ってる中綴じ用のホチキスを使うと便利。
     束ごとに小口を化粧裁ちして、背を万力で押さえ、木工用ボンドで適当な紙に貼り付ける。
+    </p>
+    <p>
     厚紙で適当に表紙を作れば完成。
     非常に安上がりに本が手に入るので(今回は200円ぐらい)、皆さんもやってみてはいかがでしょうか。
+    </p>
+  </div>
 </body>
 </html>
 
