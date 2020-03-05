@@ -62,6 +62,7 @@
   <p>
   インストール方法は簡単で、tarballをAndroid上で展開するだけです。
   実際にAndroid端末にRAPをインストールする前に、いくつか注意事項があります:
+  </p>
   <ol>
     <li>インストールする端末は、root化済みであること。</li>
     <li>(古い端末のみ)端末のLinuxカーネルバージョンを確認すること。(glibc-2.20以上では、linux-2.6.32以上が必要)</li>
@@ -69,7 +70,6 @@
     <li>(ストレージが小さい場合)inodeが枯渇する場合があるので、なんとかして切り抜ける。</li>
     <li>Androidについてくるtarはよく落ちるので、busyboxのtarを使う。</li>
   </ol>
-  </p>
 <pre><code># busybox wget http://distfiles.gentoo.org/experimental/prefix/rap/rap-stage3-armv7a_hardfp-latest.tar.xz
 # busybox tar -C /data -xf rap-stage3-armv7a_hardfp-latest.tar.xz
 </code></pre>
